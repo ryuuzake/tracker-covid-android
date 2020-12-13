@@ -19,5 +19,8 @@ jobs:
         java-version: 1.8
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
+    # Unit Test android
+    - name: Unit Test the app
+      run: ./gradlew test
     - name: Build with Gradle
       run: ./gradlew build
