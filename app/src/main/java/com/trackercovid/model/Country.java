@@ -1,14 +1,23 @@
 package com.trackercovid.model;
 
 public class Country {
+    private Integer id;
     private String name;
-    private int latitude;
-    private int longitude;
+    private Double latitude;
+    private Double longitude;
     private int cases;
     private int deaths;
     private int recovered;
     private int active;
     private int critical;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -18,19 +27,19 @@ public class Country {
         this.name = name;
     }
 
-    public int getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
