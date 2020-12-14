@@ -1,6 +1,7 @@
-package com.trackercovid.api_response;
+package com.trackercovid.util;
 
 import com.trackercovid.MockResponseFileReader;
+import com.trackercovid.api_response.CountryResponse;
 import com.trackercovid.model.Country;
 
 import org.junit.Test;
@@ -10,9 +11,10 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-public class CountryResponseTest {
+public class CountryResponseUtilTest {
 
     private MockResponseFileReader fileReader = new MockResponseFileReader();
+    private CountryResponseUtil countryResponseUtil = new CountryResponseUtil();
 
     @Test
     public void fromJson_success() {
@@ -20,7 +22,7 @@ public class CountryResponseTest {
         String json = fileReader.readJson("country_response.json");
 
         // act
-        CountryResponse fromJson = CountryResponse.fromJson(json);
+        CountryResponse fromJson = countryResponseUtil.fromJson(json);
 
         // assert
         assertNotNull(fromJson);
@@ -32,7 +34,7 @@ public class CountryResponseTest {
         String json = "";
 
         // act
-        CountryResponse fromJson = CountryResponse.fromJson(json);
+        CountryResponse fromJson = countryResponseUtil.fromJson(json);
 
         // assert
         assertNull(fromJson);
@@ -44,7 +46,7 @@ public class CountryResponseTest {
         String jsonList = fileReader.readJson("all_countries_response.json");
 
         // act
-        List<CountryResponse> fromJsonList = CountryResponse.fromJsonList(jsonList);
+        List<CountryResponse> fromJsonList = countryResponseUtil.fromJsonList(jsonList);
 
         // assert
         assertNotNull(fromJsonList);
@@ -56,20 +58,33 @@ public class CountryResponseTest {
         String jsonList = "";
 
         // act
-        List<CountryResponse> fromJsonList = CountryResponse.fromJsonList(jsonList);
+        List<CountryResponse> fromJsonList = countryResponseUtil.fromJsonList(jsonList);
 
         // assert
         assertNull(fromJsonList);
     }
 
     @Test
-    public void toCountryModel() {
+    public void toCountryModel_list() {
         // arrange
-        String json = fileReader.readJson("country_response.json");
-        CountryResponse fromJson = CountryResponse.fromJson(json);
+        String json = fileReader.readJson("all_countries_response.json");
+        List<CountryResponse> fromJson = countryResponseUtil.fromJsonList(json);
 
         // act
-        Country expected = fromJson.toCountryModel();
+        List<Country> expected = countryResponseUtil.toCountryModel(fromJson);
+
+        // assert
+        assertNotNull(expected);
+    }
+
+    @Test
+    public void toCountryModel_object() {
+        // arrange
+        String json = fileReader.readJson("country_response.json");
+        CountryResponse fromJson = countryResponseUtil.fromJson(json);
+
+        // act
+        Country expected = countryResponseUtil.toCountryModel(fromJson);
 
         // assert
         assertNotNull(expected);

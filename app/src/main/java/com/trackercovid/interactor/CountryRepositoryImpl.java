@@ -1,11 +1,9 @@
 package com.trackercovid.interactor;
 
-import com.trackercovid.api_response.CountryResponse;
 import com.trackercovid.callback.LoadDataCallback;
 import com.trackercovid.callback.RepositoryCallback;
 import com.trackercovid.model.Country;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CountryRepositoryImpl implements CountryRepository {
@@ -59,15 +57,6 @@ public class CountryRepositoryImpl implements CountryRepository {
                 }
             });
         }
-    }
-
-    private List<Country> processCountryResponseToModel(List<CountryResponse> data) {
-        ArrayList<Country> countries = new ArrayList<>();
-
-        for (CountryResponse countryResponse : data)
-            countries.add(countryResponse.toCountryModel());
-
-        return countries;
     }
 
     @Override

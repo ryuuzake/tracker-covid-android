@@ -2,6 +2,7 @@ package com.trackercovid.retrofit;
 
 import com.trackercovid.MockResponseFileReader;
 import com.trackercovid.api_response.CountryResponse;
+import com.trackercovid.util.CountryResponseUtil;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ import static org.junit.Assert.assertNotNull;
 public class CountryServiceTest {
 
     private MockResponseFileReader fileReader = new MockResponseFileReader();
+    private CountryResponseUtil countryResponseUtil = new CountryResponseUtil();
     private MockWebServer server = new MockWebServer();
     private CountryService service;
 
@@ -53,7 +55,7 @@ public class CountryServiceTest {
                 .setResponseCode(HTTP_OK)
                 .setBody(json);
         server.enqueue(expectedResponse);
-        List<CountryResponse> expected = CountryResponse.fromJsonList(json);
+        List<CountryResponse> expected = countryResponseUtil.fromJsonList(json);
 
         // Act
         Response<List<CountryResponse>> response = service.getAllCountries(null).execute();
@@ -74,7 +76,7 @@ public class CountryServiceTest {
                 .setResponseCode(HTTP_OK)
                 .setBody(json);
         server.enqueue(expectedResponse);
-        CountryResponse expected = CountryResponse.fromJson(json);
+        CountryResponse expected = countryResponseUtil.fromJson(json);
 
         // Act
         Response<CountryResponse> response = service.getCountry("Italy", null).execute();

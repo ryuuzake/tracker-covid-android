@@ -5,6 +5,7 @@ import com.trackercovid.api_response.CountryResponse;
 import com.trackercovid.callback.LoadDataCallback;
 import com.trackercovid.callback.RepositoryCallback;
 import com.trackercovid.model.Country;
+import com.trackercovid.util.CountryResponseUtil;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -54,9 +55,10 @@ public class CountryRepositoryTest {
     }
 
     private List<Country> createCountryList() {
-        List<CountryResponse> countryResponses = CountryResponse
+        CountryResponseUtil countryResponseUtil = new CountryResponseUtil();
+        List<CountryResponse> countryResponses = countryResponseUtil
                 .fromJsonList(new MockResponseFileReader().readJson("all_countries_response.json"));
-        return countryResponses.stream().map(CountryResponse::toCountryModel).collect(Collectors.toList());
+        return countryResponses.stream().map(countryResponseUtil::toCountryModel).collect(Collectors.toList());
     }
 
     private void setUpConnectivity(boolean isConnected) {

@@ -1,13 +1,7 @@
 package com.trackercovid.api_response;
 
-import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.google.gson.reflect.TypeToken;
-import com.trackercovid.model.Country;
-
-import java.lang.reflect.Type;
-import java.util.List;
 
 public class CountryResponse {
     @SerializedName("updated")
@@ -338,29 +332,5 @@ public class CountryResponse {
         result = 31 * result + (recoveredPerOneMillion != null ? recoveredPerOneMillion.hashCode() : 0);
         result = 31 * result + (criticalPerOneMillion != null ? criticalPerOneMillion.hashCode() : 0);
         return result;
-    }
-
-    public static CountryResponse fromJson(String json) {
-        return new Gson().fromJson(json, CountryResponse.class);
-    }
-
-    public static List<CountryResponse> fromJsonList(String json) {
-        Type type = new TypeToken<List<CountryResponse>>() {
-        }.getType();
-        return new Gson().fromJson(json, type);
-    }
-
-    public Country toCountryModel() {
-        Country countryModel = new Country();
-        countryModel.setId(countryInfo.getId());
-        countryModel.setName(country);
-        countryModel.setLatitude(countryInfo.getLat());
-        countryModel.setLongitude(countryInfo.getLong());
-        countryModel.setCases(cases);
-        countryModel.setDeaths(deaths);
-        countryModel.setRecovered(recovered);
-        countryModel.setActive(active);
-        countryModel.setCritical(critical);
-        return countryModel;
     }
 }
