@@ -116,7 +116,7 @@ public class CountryRepositoryTest {
 
         // assert
         verify(mockRemoteDataSource).getCountries(countriesLoadDataCallbackArgumentCaptor.capture());
-        countriesLoadDataCallbackArgumentCaptor.getValue().onError(e);
+        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
         verifyNoMoreInteractions(mockLocalDataSource);
         verify(mockCountriesRepositoryCallback).onError(e.getMessage());
     }
@@ -154,7 +154,7 @@ public class CountryRepositoryTest {
         // assert
         verifyNoMoreInteractions(mockRemoteDataSource);
         verify(mockLocalDataSource).getCountries(countriesLoadDataCallbackArgumentCaptor.capture());
-        countriesLoadDataCallbackArgumentCaptor.getValue().onError(e);
+        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
         verify(mockCountriesRepositoryCallback).onError(e.getMessage());
     }
 }

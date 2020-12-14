@@ -35,7 +35,7 @@ public class CountryRepositoryImpl implements CountryRepository {
                 }
 
                 @Override
-                public void onError(Throwable e) {
+                public void onError(String errorMessage, Throwable e) {
                     callback.onError(e.getMessage());
                 }
             });
@@ -52,7 +52,7 @@ public class CountryRepositoryImpl implements CountryRepository {
                 }
 
                 @Override
-                public void onError(Throwable e) {
+                public void onError(String errorMessage, Throwable e) {
                     callback.onError(e.getMessage());
                 }
             });

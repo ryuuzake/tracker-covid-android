@@ -1,0 +1,56 @@
+package com.trackercovid.interactor;
+
+import com.trackercovid.api_response.CountryResponse;
+import com.trackercovid.callback.LoadDataCallback;
+import com.trackercovid.model.Country;
+import com.trackercovid.retrofit.CountryService;
+import com.trackercovid.util.CountryResponseUtil;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class CountryRemoteDataSourceImpl implements CountryRemoteDataSource {
+
+    private final CountryService service;
+    private final CountryResponseUtil util;
+
+    public CountryRemoteDataSourceImpl(CountryService service, CountryResponseUtil util) {
+        this.service = service;
+        this.util = util;
+    }
+
+    @Override
+    public void getCountries(LoadDataCallback<List<Country>> callback) {
+        Call<List<CountryResponse>> call = service.getAllCountries(null);
+        call.enqueue(new Callback<List<CountryResponse>>() {
+            @Override
+            public void onResponse(@NotNull Call<List<CountryResponse>> call, @NotNull Response<List<CountryResponse>> response) {
+                if (response.isSuccessful()) {
+                    if (response.body() != null) {
+                        List<Country> countries = util.toCountryModel(response.body());
+                        callback.onDataLoaded(countries);
+                    } else {
+                        callback.onNoDataLoaded();
+                    }
+                } else {
+                    callback.onError(response.message(), null);
+                }
+            }
+
+            @Override
+            public void onFailure(@NotNull Call<List<CountryResponse>> call, @NotNull Throwable t) {
+                callback.onError(null, t);
+            }
+        });
+    }
+
+    @Override
+    public void getCountry(LoadDataCallback<Country> callback) {
+
+    }
+}
