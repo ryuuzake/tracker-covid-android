@@ -1,7 +1,5 @@
 package com.trackercovid.retrofit;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.trackercovid.MockResponseFileReader;
 import com.trackercovid.api_response.CountryResponse;
 
@@ -10,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -48,7 +45,7 @@ public class CountryServiceTest {
     }
 
     @Test
-    public void getAllCountries_verifyJsonMapping() throws IOException {
+    public void getAllCountries_verifyEqualsJsonMapping() throws IOException {
         // Assign
         String json = fileReader.readJson("all_countries_response.json");
         assert json != null;
@@ -56,26 +53,7 @@ public class CountryServiceTest {
                 .setResponseCode(HTTP_OK)
                 .setBody(json);
         server.enqueue(expectedResponse);
-
-        // Act
-        Response<List<CountryResponse>> response = service.getAllCountries(null).execute();
-
-        // Assert
-        assertNotNull(response.body());
-    }
-
-    @Test
-    public void getAllCountries_verifyEqualsGsonMapping() throws IOException {
-        // Assign
-        String json = fileReader.readJson("all_countries_response.json");
-        assert json != null;
-        MockResponse expectedResponse = new MockResponse()
-                .setResponseCode(HTTP_OK)
-                .setBody(json);
-        server.enqueue(expectedResponse);
-        Type type = new TypeToken<List<CountryResponse>>() {
-        }.getType();
-        List<CountryResponse> expected = new Gson().fromJson(json, type);
+        List<CountryResponse> expected = CountryResponse.fromJsonList(json);
 
         // Act
         Response<List<CountryResponse>> response = service.getAllCountries(null).execute();
@@ -85,5 +63,24 @@ public class CountryServiceTest {
         for (int i = 0; i < expected.size(); i++) {
             assertEquals(expected.get(i), response.body().get(i));
         }
+    }
+
+    @Test
+    public void getCountry_verifyEqualsJsonMapping() throws IOException {
+        // Assign
+        String json = fileReader.readJson("country_response.json");
+        assert json != null;
+        MockResponse expectedResponse = new MockResponse()
+                .setResponseCode(HTTP_OK)
+                .setBody(json);
+        server.enqueue(expectedResponse);
+        CountryResponse expected = CountryResponse.fromJson(json);
+
+        // Act
+        Response<CountryResponse> response = service.getCountry("Italy", null).execute();
+
+        // Assert
+        assertNotNull(response.body());
+        assertEquals(expected, response.body());
     }
 }
