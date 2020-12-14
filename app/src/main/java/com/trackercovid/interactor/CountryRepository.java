@@ -1,13 +1,12 @@
 package com.trackercovid.interactor;
 
-import android.content.SharedPreferences;
+import com.trackercovid.callback.RepositoryCallback;
+import com.trackercovid.model.Country;
 
-public class CountryRepository {
-    public CountryRepository(CountryRemoteDataSource remoteDataSource,
-                             SharedPreferences sharedPreferences) {
-    }
+import java.util.List;
 
-    public void getCountries() {
+public interface CountryRepository {
+    void getCountries(RepositoryCallback<List<Country>> callback);
 
-    }
+    void getCountry(String countryName, RepositoryCallback<Country> callback);
 }

@@ -5,9 +5,8 @@ import com.trackercovid.model.Country;
 
 import java.util.List;
 
-public interface CountryRemoteDataSource {
+public interface CountryLocalDataSource {
+    void cacheCountries(List<Country> countries);
 
     void getCountries(LoadDataCallback<List<Country>> callback);
-
-    void getCountry(LoadDataCallback<Country> callback);
 }
