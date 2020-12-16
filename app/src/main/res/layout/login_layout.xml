@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,9 +9,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:ems="10"
-        android:hint="Email"
+        android:autofillHints="@string/email_hint"
         android:backgroundTint="@color/colorPrimary"
+        android:ems="10"
+        android:hint="@string/email_hint"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/et_password"
         app:layout_constraintEnd_toEndOf="@+id/et_password"
@@ -24,9 +23,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
+        android:autofillHints="@string/password_hint"
         android:backgroundTint="@color/colorPrimary"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password_hint"
         android:inputType="textPassword"
         app:layout_constraintBottom_toTopOf="@+id/bt_login"
         app:layout_constraintEnd_toEndOf="@+id/bt_login"
@@ -40,10 +40,9 @@
         android:layout_marginLeft="32dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
-
         android:layout_marginBottom="92dp"
         android:background="@color/colorPrimary"
-        android:text="LOGIN"
+        android:text="@string/login"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -54,7 +53,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:text="Welcome Back!!"
+        android:text="@string/welcome_back"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="36sp"
         android:textStyle="bold"
@@ -78,15 +77,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Don't have account?" />
+            android:text="@string/no_account_help" />
 
         <TextView
             android:id="@+id/tv_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingLeft="5dp"
-            android:text="Register"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/register"
             android:textColor="@color/colorPrimaryDark" />
     </LinearLayout>
 
