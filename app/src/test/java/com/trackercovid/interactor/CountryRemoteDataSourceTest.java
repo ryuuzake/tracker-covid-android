@@ -25,8 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,24 +40,37 @@ public class CountryRemoteDataSourceTest {
     private CountryService mockService;
     @Mock
     private Call<List<CountryResponse>> mockCallCountryResponses;
+    @Mock
+    private Call<CountryResponse> mockCallCountryResponse;
     @Captor
     private ArgumentCaptor<Callback<List<CountryResponse>>> countriesCallbackArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<Callback<CountryResponse>> countryCallbackArgumentCaptor;
     @Mock
     private LoadDataCallback<List<Country>> mockCountriesLoadDataCallback;
     @Mock
+    private LoadDataCallback<Country> mockCountryLoadDataCallback;
+    @Mock
     private CountryResponseUtil mockCountryResponseUtil;
 
-    private List<CountryResponse> countryResponses;
-    private List<Country> countries;
+    private List<CountryResponse> tCountryResponses;
+    private List<Country> tCountries;
+    private CountryResponse tCountryResponse;
+    private Country tCountry;
+    private String tCountryName = "Italy";
+    private Throwable t = new Throwable();
 
     @Before
     public void setUp() {
         countryRemoteDataSource = new CountryRemoteDataSourceImpl(mockService, mockCountryResponseUtil);
 
-        String json = new MockResponseFileReader().readJson("all_countries_response.json");
+        String jsonList = new MockResponseFileReader().readJson("all_countries_response.json");
+        String json = new MockResponseFileReader().readJson("country_response.json");
         CountryResponseUtil countryResponseUtil = new CountryResponseUtil();
-        countryResponses = countryResponseUtil.fromJsonList(json);
-        countries = countryResponseUtil.toCountryModel(countryResponses);
+        tCountryResponses = countryResponseUtil.fromJsonList(jsonList);
+        tCountryResponse = countryResponseUtil.fromJson(json);
+        tCountries = countryResponseUtil.toCountryModel(tCountryResponses);
+        tCountry = countryResponseUtil.toCountryModel(tCountryResponse);
     }
 
     @After
@@ -69,7 +82,7 @@ public class CountryRemoteDataSourceTest {
     public void getCountries_success() {
         // arrange
         when(mockService.getAllCountries(anyString())).thenReturn(mockCallCountryResponses);
-        when(mockCountryResponseUtil.toCountryModel(countryResponses)).thenReturn(countries);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponses)).thenReturn(tCountries);
 
         // act
         countryRemoteDataSource.getCountries(mockCountriesLoadDataCallback);
@@ -78,16 +91,16 @@ public class CountryRemoteDataSourceTest {
         verify(mockService).getAllCountries(null);
         verify(mockCallCountryResponses).enqueue(countriesCallbackArgumentCaptor.capture());
         countriesCallbackArgumentCaptor.getValue()
-                .onResponse(mockCallCountryResponses, Response.success(countryResponses));
-        verify(mockCountryResponseUtil).toCountryModel(countryResponses);
-        verify(mockCountriesLoadDataCallback).onDataLoaded(countries);
+                .onResponse(mockCallCountryResponses, Response.success(tCountryResponses));
+        verify(mockCountryResponseUtil).toCountryModel(tCountryResponses);
+        verify(mockCountriesLoadDataCallback).onDataLoaded(tCountries);
     }
 
     @Test
     public void getCountries_successNoData() {
         // arrange
         when(mockService.getAllCountries(anyString())).thenReturn(mockCallCountryResponses);
-        when(mockCountryResponseUtil.toCountryModel(countryResponses)).thenReturn(countries);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponses)).thenReturn(tCountries);
 
         // act
         countryRemoteDataSource.getCountries(mockCountriesLoadDataCallback);
@@ -104,7 +117,7 @@ public class CountryRemoteDataSourceTest {
     public void getCountries_failed() {
         // arrange
         when(mockService.getAllCountries(anyString())).thenReturn(mockCallCountryResponses);
-        when(mockCountryResponseUtil.toCountryModel(countryResponses)).thenReturn(countries);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponses)).thenReturn(tCountries);
         ResponseBody body = ResponseBody.create("", MediaType.parse("application/json"));
         Response<List<CountryResponse>> error = Response.error(404, body);
 
@@ -122,9 +135,8 @@ public class CountryRemoteDataSourceTest {
     @Test
     public void getCountries_failure() {
         // arrange
-        Throwable t = new Throwable();
         when(mockService.getAllCountries(anyString())).thenReturn(mockCallCountryResponses);
-        when(mockCountryResponseUtil.toCountryModel(countryResponses)).thenReturn(countries);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponses)).thenReturn(tCountries);
 
         // act
         countryRemoteDataSource.getCountries(mockCountriesLoadDataCallback);
@@ -138,7 +150,73 @@ public class CountryRemoteDataSourceTest {
     }
 
     @Test
-    public void getCountry() {
-        assertTrue(false);
+    public void getCountry_success() {
+        // arrange
+        when(mockService.getCountry(eq(tCountryName), anyString())).thenReturn(mockCallCountryResponse);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponse)).thenReturn(tCountry);
+
+        // act
+        countryRemoteDataSource.getCountry(tCountryName, mockCountryLoadDataCallback);
+
+        // assert
+        verify(mockService).getCountry(eq(tCountryName), anyString());
+        verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
+        countryCallbackArgumentCaptor.getValue()
+                .onResponse(mockCallCountryResponse, Response.success(tCountryResponse));
+        verify(mockCountryResponseUtil).toCountryModel(tCountryResponse);
+        verify(mockCountryLoadDataCallback).onDataLoaded(tCountry);
+    }
+
+    @Test
+    public void getCountry_successNoData() {
+        // arrange
+        when(mockService.getCountry(eq(tCountryName), anyString())).thenReturn(mockCallCountryResponse);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponse)).thenReturn(tCountry);
+
+        // act
+        countryRemoteDataSource.getCountry(tCountryName, mockCountryLoadDataCallback);
+
+        // assert
+        verify(mockService).getCountry(eq(tCountryName), anyString());
+        verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
+        countryCallbackArgumentCaptor.getValue()
+                .onResponse(mockCallCountryResponse, Response.success(null));
+        verify(mockCountryLoadDataCallback).onNoDataLoaded();
+    }
+
+    @Test
+    public void getCountry_failed() {
+        // arrange
+        ResponseBody body = ResponseBody.create("", MediaType.parse("application/json"));
+        Response<CountryResponse> error = Response.error(404, body);
+        when(mockService.getCountry(eq(tCountryName), anyString())).thenReturn(mockCallCountryResponse);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponse)).thenReturn(tCountry);
+
+        // act
+        countryRemoteDataSource.getCountry(tCountryName, mockCountryLoadDataCallback);
+
+        // assert
+        verify(mockService).getCountry(eq(tCountryName), anyString());
+        verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
+        countryCallbackArgumentCaptor.getValue()
+                .onResponse(mockCallCountryResponse, error);
+        verify(mockCountryLoadDataCallback).onError(error.message(), null);
+    }
+
+    @Test
+    public void getCountry_failure() {
+        // arrange
+        when(mockService.getCountry(eq(tCountryName), anyString())).thenReturn(mockCallCountryResponse);
+        when(mockCountryResponseUtil.toCountryModel(tCountryResponse)).thenReturn(tCountry);
+
+        // act
+        countryRemoteDataSource.getCountry(tCountryName, mockCountryLoadDataCallback);
+
+        // assert
+        verify(mockService).getCountry(eq(tCountryName), anyString());
+        verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
+        countryCallbackArgumentCaptor.getValue()
+                .onFailure(mockCallCountryResponse, t);
+        verify(mockCountryLoadDataCallback).onError(null, t);
     }
 }
