@@ -1,6 +1,11 @@
 package com.trackercovid.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Country {
+    @PrimaryKey
     private Integer id;
     private String name;
     private Double latitude;
