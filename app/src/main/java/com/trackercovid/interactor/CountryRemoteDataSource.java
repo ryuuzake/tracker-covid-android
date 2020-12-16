@@ -9,5 +9,5 @@ public interface CountryRemoteDataSource {
 
     void getCountries(LoadDataCallback<List<Country>> callback);
 
-    void getCountry(LoadDataCallback<Country> callback);
+    void getCountry(String countryName, LoadDataCallback<Country> callback);
 }

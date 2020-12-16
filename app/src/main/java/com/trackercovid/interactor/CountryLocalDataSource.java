@@ -9,4 +9,6 @@ public interface CountryLocalDataSource {
     void cacheCountries(List<Country> countries);
 
     void getCountries(LoadDataCallback<List<Country>> callback);
+
+    void getCountry(String countryName, LoadDataCallback<Country> capture);
 }
