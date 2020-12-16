@@ -12,5 +12,5 @@ public interface CountryLocalDataSource {
 
     void getCountries(LoadDataCallback<List<Country>> callback);
 
-    void getCountry(String countryName, LoadDataCallback<Country> capture);
+    void getCountry(String countryName, LoadDataCallback<Country> callback);
 }
