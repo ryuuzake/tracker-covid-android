@@ -129,7 +129,7 @@ public class CountryRemoteDataSourceTest {
         verify(mockCallCountryResponses).enqueue(countriesCallbackArgumentCaptor.capture());
         countriesCallbackArgumentCaptor.getValue()
                 .onResponse(mockCallCountryResponses, error);
-        verify(mockCountriesLoadDataCallback).onError(error.message(), null);
+        verify(mockCountriesLoadDataCallback).onError(error.message());
     }
 
     @Test
@@ -146,7 +146,7 @@ public class CountryRemoteDataSourceTest {
         verify(mockCallCountryResponses).enqueue(countriesCallbackArgumentCaptor.capture());
         countriesCallbackArgumentCaptor.getValue()
                 .onFailure(mockCallCountryResponses, t);
-        verify(mockCountriesLoadDataCallback).onError(null, t);
+        verify(mockCountriesLoadDataCallback).onError(t.getMessage());
     }
 
     @Test
@@ -200,7 +200,7 @@ public class CountryRemoteDataSourceTest {
         verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
         countryCallbackArgumentCaptor.getValue()
                 .onResponse(mockCallCountryResponse, error);
-        verify(mockCountryLoadDataCallback).onError(error.message(), null);
+        verify(mockCountryLoadDataCallback).onError(error.message());
     }
 
     @Test
@@ -217,6 +217,6 @@ public class CountryRemoteDataSourceTest {
         verify(mockCallCountryResponse).enqueue(countryCallbackArgumentCaptor.capture());
         countryCallbackArgumentCaptor.getValue()
                 .onFailure(mockCallCountryResponse, t);
-        verify(mockCountryLoadDataCallback).onError(null, t);
+        verify(mockCountryLoadDataCallback).onError(t.getMessage());
     }
 }

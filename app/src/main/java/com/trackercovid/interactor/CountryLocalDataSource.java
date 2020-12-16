@@ -8,6 +8,8 @@ import java.util.List;
 public interface CountryLocalDataSource {
     void cacheCountries(List<Country> countries);
 
+    void cacheCountry(Country country);
+
     void getCountries(LoadDataCallback<List<Country>> callback);
 
     void getCountry(String countryName, LoadDataCallback<Country> capture);

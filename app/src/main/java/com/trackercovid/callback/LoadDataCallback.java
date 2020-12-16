@@ -6,5 +6,5 @@ public interface LoadDataCallback<T> {
 
     void onNoDataLoaded();
 
-    void onError(String errorMessage, Throwable e);
+    void onError(String errorMessage);
 }

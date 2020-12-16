@@ -37,13 +37,13 @@ public class CountryRemoteDataSourceImpl implements CountryRemoteDataSource {
                         callback.onNoDataLoaded();
                     }
                 } else {
-                    callback.onError(response.message(), null);
+                    callback.onError(response.message());
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<CountryResponse>> call, @NotNull Throwable t) {
-                callback.onError(null, t);
+                callback.onError(t.getMessage());
             }
         });
     }
@@ -61,13 +61,13 @@ public class CountryRemoteDataSourceImpl implements CountryRemoteDataSource {
                         callback.onNoDataLoaded();
                     }
                 } else {
-                    callback.onError(response.message(), null);
+                    callback.onError(response.message());
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<CountryResponse> call, @NotNull Throwable t) {
-                callback.onError(null, t);
+                callback.onError(t.getMessage());
             }
         });
     }

@@ -135,7 +135,7 @@ public class CountryRepositoryTest {
 
         // assert
         verify(mockRemoteDataSource).getCountries(countriesLoadDataCallbackArgumentCaptor.capture());
-        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
+        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null);
         verifyNoMoreInteractions(mockLocalDataSource);
         verify(mockCountriesRepositoryCallback).onError(e.getMessage());
     }
@@ -172,19 +172,16 @@ public class CountryRepositoryTest {
         // assert
         verifyNoMoreInteractions(mockRemoteDataSource);
         verify(mockLocalDataSource).getCountries(countriesLoadDataCallbackArgumentCaptor.capture());
-        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
+        countriesLoadDataCallbackArgumentCaptor.getValue().onError(null);
         verify(mockCountriesRepositoryCallback).onError(e.getMessage());
     }
 
     @Test
     public void getCountry_verifyFromRemoteDataSource_online() {
-        /// Local Data not available, fetch from api
         // arrange
         setUpCountry(true);
 
         // assert
-        verify(mockLocalDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
-        countryLoadDataCallbackArgumentCaptor.getValue().onNoDataLoaded();
         verify(mockRemoteDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
         countryLoadDataCallbackArgumentCaptor.getValue().onDataLoaded(tCountry);
         verify(mockCountryRepositoryCallback).onSuccess(tCountry);
@@ -197,9 +194,9 @@ public class CountryRepositoryTest {
         setUpCountry(true);
 
         // assert
-        verify(mockLocalDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
+        verify(mockRemoteDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
         countryLoadDataCallbackArgumentCaptor.getValue().onDataLoaded(tCountry);
-        verifyNoMoreInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource).cacheCountry(tCountry);
         verify(mockCountryRepositoryCallback).onSuccess(tCountry);
     }
 
@@ -210,24 +207,21 @@ public class CountryRepositoryTest {
         setUpCountry(true);
 
         // assert
-        verify(mockLocalDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
-        countryLoadDataCallbackArgumentCaptor.getValue().onNoDataLoaded();
         verify(mockRemoteDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
         countryLoadDataCallbackArgumentCaptor.getValue().onNoDataLoaded();
+        verifyNoMoreInteractions(mockLocalDataSource);
         verify(mockCountryRepositoryCallback).onEmpty();
     }
 
     @Test
     public void getCountry_verifyFailure_online() {
-        /// Local Data failure, and remote data failure
         // arrange
         setUpCountry(true);
 
         // assert
-        verify(mockLocalDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
-        countryLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
         verify(mockRemoteDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
-        countryLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
+        countryLoadDataCallbackArgumentCaptor.getValue().onError(null);
+        verifyNoMoreInteractions(mockLocalDataSource);
         verify(mockCountryRepositoryCallback).onError(e.getMessage());
     }
 
@@ -265,7 +259,7 @@ public class CountryRepositoryTest {
         // assert
         verifyNoMoreInteractions(mockRemoteDataSource);
         verify(mockLocalDataSource).getCountry(eq(tCountryName), countryLoadDataCallbackArgumentCaptor.capture());
-        countryLoadDataCallbackArgumentCaptor.getValue().onError(null, e);
+        countryLoadDataCallbackArgumentCaptor.getValue().onError(null);
         verify(mockCountryRepositoryCallback).onError(e.getMessage());
     }
 }

@@ -35,8 +35,8 @@ public class CountryRepositoryImpl implements CountryRepository {
                 }
 
                 @Override
-                public void onError(String errorMessage, Throwable e) {
-                    callback.onError(e.getMessage());
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
                 }
             });
         } else {
@@ -52,8 +52,8 @@ public class CountryRepositoryImpl implements CountryRepository {
                 }
 
                 @Override
-                public void onError(String errorMessage, Throwable e) {
-                    callback.onError(e.getMessage());
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
                 }
             });
         }
@@ -61,23 +61,25 @@ public class CountryRepositoryImpl implements CountryRepository {
 
     @Override
     public void getCountry(String countryName, RepositoryCallback<Country> callback) {
-        final LoadDataCallback<Country> loadDataCallback = new LoadDataCallback<Country>() {
-            @Override
-            public void onDataLoaded(Country data) {
-                callback.onSuccess(data);
-            }
-
-            @Override
-            public void onNoDataLoaded() {
-                callback.onEmpty();
-            }
-
-            @Override
-            public void onError(String errorMessage, Throwable e) {
-                callback.onError(e.getMessage());
-            }
-        };
         if (networkInfoSource.getNetworkCapabilities()) {
+            remoteDataSource.getCountry(countryName, new LoadDataCallback<Country>() {
+                @Override
+                public void onDataLoaded(Country data) {
+                    localDataSource.cacheCountry(data);
+                    callback.onSuccess(data);
+                }
+
+                @Override
+                public void onNoDataLoaded() {
+                    callback.onEmpty();
+                }
+
+                @Override
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
+                }
+            });
+        } else {
             localDataSource.getCountry(countryName, new LoadDataCallback<Country>() {
                 @Override
                 public void onDataLoaded(Country data) {
@@ -86,20 +88,14 @@ public class CountryRepositoryImpl implements CountryRepository {
 
                 @Override
                 public void onNoDataLoaded() {
-                    fetchFromRemoteDataSource(countryName);
+                    callback.onEmpty();
                 }
 
                 @Override
-                public void onError(String errorMessage, Throwable e) {
-                    fetchFromRemoteDataSource(countryName);
-                }
-
-                private void fetchFromRemoteDataSource(String countryName) {
-                    remoteDataSource.getCountry(countryName, loadDataCallback);
+                public void onError(String errorMessage) {
+                    callback.onError(errorMessage);
                 }
             });
-        } else {
-            localDataSource.getCountry(countryName, loadDataCallback);
         }
     }
 }
