@@ -8,4 +8,20 @@
         <item name="textAllCaps">@color/black</item>
     </style>
 
+    <style name="Confirmed">
+        <item name="android:textColor">@color/cases</item>
+    </style>
+    <style name="Deaths">
+        <item name="android:textColor">@color/deaths</item>
+    </style>
+    <style name="Recovered">
+        <item name="android:textColor">@color/recovered</item>
+    </style>
+    <style name="Active">
+        <item name="android:textColor">@color/active</item>
+    </style>
+    <style name="Critical">
+        <item name="android:textColor">@color/critical</item>
+    </style>
+
 </resources>
