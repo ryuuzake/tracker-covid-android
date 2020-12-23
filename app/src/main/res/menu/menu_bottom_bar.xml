@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/btm_heatmap"
+        android:icon="@drawable/ic_map"
+        android:title="Heat Map" />
+    <item
+        android:id="@+id/btm_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/btm_country"
+        android:icon="@drawable/ic_country"
+        android:title="Country" />
+</menu>
