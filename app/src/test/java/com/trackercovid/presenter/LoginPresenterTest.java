@@ -27,10 +27,11 @@ public class LoginPresenterTest {
     @Captor
     private ArgumentCaptor<RepositoryCallback<User>> repositoryCallbackArgumentCaptor;
 
+    private String tName = "User Testing";
     private String tEmail = "test@example.com";
     private String tPassword = "test";
     private User tUser = new User(tEmail, tPassword);
-    private User tUserNoPass = new User(tEmail);
+    private User tUserNoPass = new User(tName, tEmail, null);
 
     @Before
     public void setUp() {
