@@ -1,7 +1,7 @@
 package com.trackercovid.presenter;
 
 import com.trackercovid.callback.RepositoryCallback;
-import com.trackercovid.contract.LoginContract;
+import com.trackercovid.contract.RegisterContract;
 import com.trackercovid.interactor.UserRepository;
 import com.trackercovid.model.User;
 
@@ -17,11 +17,11 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LoginPresenterTest {
+public class RegisterPresenterTest {
 
-    private LoginPresenter presenter;
+    private RegisterPresenter presenter;
     @Mock
-    private LoginContract.View mockView;
+    private RegisterContract.View mockView;
     @Mock
     private UserRepository mockRepository;
     @Captor
@@ -30,55 +30,55 @@ public class LoginPresenterTest {
     private String tName = "User Testing";
     private String tEmail = "test@example.com";
     private String tPassword = "test";
-    private User tUser = new User(tEmail, tPassword);
+    private User tUser = new User(tName, tEmail, tPassword);
     private User tUserNoPass = new User(tName, tEmail, null);
 
     @Before
     public void setUp() {
-        presenter = new LoginPresenter(mockView, mockRepository);
+        presenter = new RegisterPresenter(mockView, mockRepository);
     }
 
     @Test
-    public void login_success() {
+    public void register_success() {
         // arrange
 
         // act
-        presenter.login(tEmail, tPassword);
+        presenter.register(tName, tEmail, tPassword);
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).loginUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
+        verify(mockRepository).createUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
         repositoryCallbackArgumentCaptor.getValue().onSuccess(tUserNoPass);
         verify(mockView).stopLoading();
-        verify(mockView).redirectToHome();
+        verify(mockView).redirectToLogin();
     }
 
     @Test
-    public void login_emptyFail() {
+    public void register_emptyFail() {
         // arrange
 
         // act
-        presenter.login(tEmail, tPassword);
+        presenter.register(tName, tEmail, tPassword);
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).loginUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
-        String errorMessage = "No User Found.";
+        verify(mockRepository).createUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
+        String errorMessage = "Cannot Create User.";
         repositoryCallbackArgumentCaptor.getValue().onEmpty();
         verify(mockView).stopLoading();
         verify(mockView).showError(eq(errorMessage));
     }
 
     @Test
-    public void login_fail() {
+    public void register_fail() {
         // arrange
 
         // act
-        presenter.login(tEmail, tPassword);
+        presenter.register(tName, tEmail, tPassword);
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).loginUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
+        verify(mockRepository).createUser(eq(tUser), repositoryCallbackArgumentCaptor.capture());
         String errorMessage = "Authentication failed.";
         repositoryCallbackArgumentCaptor.getValue().onError(errorMessage);
         verify(mockView).stopLoading();
