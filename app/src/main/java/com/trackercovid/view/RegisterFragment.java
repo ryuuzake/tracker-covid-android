@@ -1,6 +1,5 @@
 package com.trackercovid.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,9 +54,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
 
     @Override
     public void redirectToLogin() {
-        Intent intent = new Intent(getContext(), LoginActivity.class);
-        startActivity(intent);
-        requireActivity().finish();
+        requireActivity().onBackPressed();
     }
 
     @Override

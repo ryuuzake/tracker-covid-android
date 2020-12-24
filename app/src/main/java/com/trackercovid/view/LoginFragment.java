@@ -1,5 +1,6 @@
 package com.trackercovid.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     private EditText etPassword;
     private Button btLogin;
     private ProgressBar progressBar;
+    private TextView tvRegister;
 
     @Nullable
     @Override
@@ -33,9 +36,15 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         etEmail = view.findViewById(R.id.et_email);
         etPassword = view.findViewById(R.id.et_password);
         btLogin = view.findViewById(R.id.bt_login);
+        tvRegister = view.findViewById(R.id.tv_register);
         progressBar = view.findViewById(R.id.progress_circular);
         btLogin.setOnClickListener(v -> presenter.login(etEmail.getText().toString(), etPassword.getText().toString()));
+        tvRegister.setOnClickListener(v -> this.redirectToRegister());
         return view;
+    }
+
+    private void redirectToRegister() {
+        startActivity(new Intent(getContext(), RegisterActivity.class));
     }
 
     @Override

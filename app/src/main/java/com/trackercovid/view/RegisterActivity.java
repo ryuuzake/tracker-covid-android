@@ -22,6 +22,6 @@ public class RegisterActivity extends BaseFragmentHolderActivity {
                 currentFragment,
                 new UserRepositoryImpl(FirebaseAuth.getInstance())
         ));
-        setCurrentFragment(currentFragment, false);
+        setCurrentFragment(currentFragment, true);
     }
 }
