@@ -15,23 +15,21 @@ import org.junit.runner.RunWith;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.pressBack;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginActivityTest {
+public class RegisterActivityTest {
 
     @Rule
-    public ActivityScenarioRule<LoginActivity> scenarioRule = new ActivityScenarioRule<>(LoginActivity.class);
+    public ActivityScenarioRule<RegisterActivity> scenarioRule = new ActivityScenarioRule<>(RegisterActivity.class);
 
     @Test
-    public void loginActivityTest_success() {
+    public void registerActivityTest_success() {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
@@ -41,13 +39,22 @@ public class LoginActivityTest {
             e.printStackTrace();
         }
 
+        ViewInteraction etFirstName = onView(withId(R.id.et_first_name));
+        etFirstName.perform(replaceText("User"), closeSoftKeyboard());
+
+        ViewInteraction etLastName = onView(withId(R.id.et_last_name));
+        etLastName.perform(replaceText("Testing"), closeSoftKeyboard());
+
         ViewInteraction etEmail = onView(withId(R.id.et_email));
         etEmail.perform(replaceText("testing@example.com"), closeSoftKeyboard());
 
         ViewInteraction etPassword = onView(withId(R.id.et_password));
         etPassword.perform(replaceText("password"), closeSoftKeyboard());
 
-        ViewInteraction btLogin = onView(withId(R.id.bt_login));
+        ViewInteraction etConfirmPassword = onView(withId(R.id.et_confirm_password));
+        etConfirmPassword.perform(replaceText("password"), closeSoftKeyboard());
+
+        ViewInteraction btLogin = onView(withId(R.id.bt_register));
         btLogin.perform(click()).check(matches(not(isDisplayed())));
 
         try {
@@ -57,37 +64,5 @@ public class LoginActivityTest {
         }
 
         btLogin.check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void loginActivityTest_redirectToRegister() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction tvRegister = onView(withId(R.id.tv_register));
-        tvRegister.perform(click());
-
-        onView(withId(R.id.bt_register)).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void loginActivityTest_redirectToRegisterAndGoBack() {
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        ViewInteraction tvRegister = onView(withId(R.id.tv_register));
-        tvRegister.perform(click());
-
-        onView(withId(R.id.bt_register)).check(matches(isDisplayed()));
-
-        onView(isRoot()).perform(pressBack());
-
-        onView(withId(R.id.bt_login)).check(matches(isDisplayed()));
     }
 }
