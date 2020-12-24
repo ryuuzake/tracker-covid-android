@@ -5,7 +5,7 @@ import com.trackercovid.contract.RegisterContract;
 import com.trackercovid.interactor.UserRepository;
 import com.trackercovid.model.User;
 
-public class RegisterPresenter implements RegisterContract.Presenter {
+public class RegisterPresenter implements RegisterContract.Presenter, BasePresenter {
     private final RegisterContract.View view;
     private final UserRepository repository;
 
@@ -36,5 +36,10 @@ public class RegisterPresenter implements RegisterContract.Presenter {
                 view.showError(errorMessage);
             }
         });
+    }
+
+    @Override
+    public void start() {
+
     }
 }
