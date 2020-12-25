@@ -1,6 +1,7 @@
 package com.trackercovid.interactor;
 
 import com.trackercovid.callback.LoadDataCallback;
+import com.trackercovid.db.AppDatabase;
 import com.trackercovid.db.CountryDao;
 import com.trackercovid.model.Country;
 
@@ -15,21 +16,21 @@ public class CountryLocalDataSourceImpl implements CountryLocalDataSource {
 
     @Override
     public void cacheCountries(List<Country> countries) {
-        dao.insertCountries(countries);
+        AppDatabase.databaseWriteExecutor.execute(() -> dao.insertCountries(countries));
     }
 
     @Override
     public void cacheCountry(Country country) {
-        dao.insertCountry(country);
+        AppDatabase.databaseWriteExecutor.execute(() -> dao.insertCountry(country));
     }
 
     @Override
     public void getCountries(LoadDataCallback<List<Country>> callback) {
-        callback.onDataLoaded(dao.getCountries());
+        AppDatabase.databaseReadExecutor.execute(() -> callback.onDataLoaded(dao.getCountries()));
     }
 
     @Override
     public void getCountry(String countryName, LoadDataCallback<Country> callback) {
-        callback.onDataLoaded(dao.getCountry(countryName));
+        AppDatabase.databaseReadExecutor.execute(() -> callback.onDataLoaded(dao.getCountry(countryName)));
     }
 }
