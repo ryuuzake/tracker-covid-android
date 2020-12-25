@@ -49,9 +49,9 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     public void redirectToHome() {
-        // TODO: Add Intent to next Activity
-        //new Intent(getContext(), );
         Log.d(TAG, "redirectToHome: success");
+        startActivity(new Intent(getContext(), HeatMapActivity.class));
+        requireActivity().finish();
     }
 
     @Override

@@ -18,6 +18,11 @@ public class HeatMapPresenter implements HeatMapContract.Presenter {
     }
 
     @Override
+    public void start() {
+        requestHeatMapData();
+    }
+
+    @Override
     public void requestHeatMapData() {
         view.startLoading();
         repository.getCountries(new RepositoryCallback<List<Country>>() {
