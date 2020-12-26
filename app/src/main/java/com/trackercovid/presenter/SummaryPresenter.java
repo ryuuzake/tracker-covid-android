@@ -38,4 +38,9 @@ public class SummaryPresenter implements SummaryContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void start() {
+
+    }
 }
