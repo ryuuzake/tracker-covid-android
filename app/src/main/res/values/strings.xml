@@ -14,5 +14,8 @@
     <string name="confirmed">Confirmed</string>
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
+    <string name="critical">Critical</string>
+    <string name="active">Active</string>
     <string name="see_more">See More</string>
+    <string name="summary">Summary</string>
 </resources>

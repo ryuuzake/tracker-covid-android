@@ -1,6 +1,7 @@
 package com.trackercovid.contract;
 
 import com.trackercovid.model.Country;
+import com.trackercovid.presenter.BasePresenter;
 import com.trackercovid.view.BaseView;
 
 public interface SummaryContract {
@@ -8,7 +9,7 @@ public interface SummaryContract {
         void showCountrySummary(Country country);
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter {
         void requestCountrySummary(Country country);
     }
 }
