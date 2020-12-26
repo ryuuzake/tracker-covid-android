@@ -11,4 +11,8 @@
     <string name="last_name_hint">Last Name</string>
     <string name="confirm_password_hint">Confirm Password</string>
     <string name="logo">Logo</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="recovered">Recovered</string>
+    <string name="deaths">Deaths</string>
+    <string name="see_more">See More</string>
 </resources>
