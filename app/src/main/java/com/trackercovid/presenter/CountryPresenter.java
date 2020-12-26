@@ -37,4 +37,9 @@ public class CountryPresenter implements CountryContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void start() {
+
+    }
 }
