@@ -1,6 +1,7 @@
 package com.trackercovid.contract;
 
 import com.trackercovid.model.Historical;
+import com.trackercovid.presenter.BasePresenter;
 import com.trackercovid.view.BaseView;
 
 public interface CountryDetailContract {
@@ -8,7 +9,7 @@ public interface CountryDetailContract {
         void showHistoricalData(Historical historical);
     }
 
-    interface Presenter {
+    interface Presenter extends BasePresenter {
         void requestHistoricalData(String countryName);
     }
 }

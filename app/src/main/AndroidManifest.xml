@@ -29,6 +29,7 @@
         <activity android:name=".view.HeatMapActivity" />
         <activity android:name=".view.CountryActivity" />
         <activity android:name=".view.SummaryActivity" />
+        <activity android:name=".view.CountryDetailActivity" />
     </application>
 
 </manifest>
