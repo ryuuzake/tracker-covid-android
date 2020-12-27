@@ -19,18 +19,12 @@
         android:textStyle="bold"
         tools:text="Indonesia" />
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:itemCount="4"
-            tools:listitem="@layout/country_detail_item" />
-    </androidx.core.widget.NestedScrollView>
+        android:layout_height="match_parent"
+        tools:itemCount="4"
+        tools:listitem="@layout/country_detail_item" />
 
     <ProgressBar
         android:id="@+id/progress_circular"

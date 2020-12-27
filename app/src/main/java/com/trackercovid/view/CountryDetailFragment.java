@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,7 +25,6 @@ public class CountryDetailFragment extends BaseFragment<CountryDetailContract.Pr
     private TextView tvCountry;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private NestedScrollView nestedScrollView;
 
     public CountryDetailFragment() {
         super();
@@ -46,7 +44,6 @@ public class CountryDetailFragment extends BaseFragment<CountryDetailContract.Pr
         View view = inflater.inflate(R.layout.country_detail_fragment, container, false);
         tvCountry = view.findViewById(R.id.tv_country);
         recyclerView = view.findViewById(R.id.recyclerView);
-        nestedScrollView = view.findViewById(R.id.nestedScrollView);
         progressBar = view.findViewById(R.id.progress_circular);
         setUpRecyclerView();
         return view;
@@ -73,13 +70,13 @@ public class CountryDetailFragment extends BaseFragment<CountryDetailContract.Pr
     @Override
     public void startLoading() {
         progressBar.setVisibility(View.VISIBLE);
-        nestedScrollView.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void stopLoading() {
         progressBar.setVisibility(View.GONE);
-        nestedScrollView.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
