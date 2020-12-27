@@ -30,6 +30,7 @@
         <activity android:name=".view.CaseCountryActivity" />
         <activity android:name=".view.CountryActivity" />
         <activity android:name=".view.SummaryActivity" />
+        <activity android:name=".view.CountryDetailActivity" />
     </application>
 
 </manifest>
