@@ -39,4 +39,9 @@ public class CaseCountryPresenter implements CaseCountryContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void start() {
+        requestCountries();
+    }
 }

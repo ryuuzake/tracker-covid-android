@@ -27,6 +27,7 @@
         </activity>
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".view.HeatMapActivity" />
+        <activity android:name=".view.CaseCountryActivity" />
         <activity android:name=".view.CountryActivity" />
         <activity android:name=".view.SummaryActivity" />
     </application>
