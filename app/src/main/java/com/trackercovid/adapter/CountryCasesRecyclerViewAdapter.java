@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.trackercovid.R;
 import com.trackercovid.model.Country;
+import com.trackercovid.util.BigNumberUtil;
 
 public class CountryCasesRecyclerViewAdapter extends RecyclerView.Adapter<CountryCasesRecyclerViewAdapter.ViewHolder> {
 
@@ -46,17 +47,17 @@ public class CountryCasesRecyclerViewAdapter extends RecyclerView.Adapter<Countr
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         switch (position) {
             case 0:
-                holder.tvNumber.setText(String.valueOf(mCountry.getActive()));
+                holder.tvNumber.setText(BigNumberUtil.format(mCountry.getCases()));
                 holder.tvDescription.setText(R.string.confirmed);
                 holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.cases));
                 break;
             case 1:
-                holder.tvNumber.setText(String.valueOf(mCountry.getRecovered()));
+                holder.tvNumber.setText(BigNumberUtil.format(mCountry.getRecovered()));
                 holder.tvDescription.setText(R.string.recovered);
                 holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.recovered));
                 break;
             case 2:
-                holder.tvNumber.setText(String.valueOf(mCountry.getDeaths()));
+                holder.tvNumber.setText(BigNumberUtil.format(mCountry.getDeaths()));
                 holder.tvDescription.setText(R.string.deaths);
                 holder.cardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.deaths));
                 break;

@@ -32,10 +32,7 @@ public class CountryDetailFragment extends BaseFragment<CountryDetailContract.Pr
 
     public CountryDetailFragment(Country country) {
         super();
-//        this.country = country;
-        final Country country1 = new Country();
-        country1.setName("Indonesia");
-        this.country = country1;
+        this.country = country;
     }
 
     @Nullable

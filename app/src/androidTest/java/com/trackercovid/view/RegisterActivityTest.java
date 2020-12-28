@@ -54,8 +54,8 @@ public class RegisterActivityTest {
         ViewInteraction etConfirmPassword = onView(withId(R.id.et_confirm_password));
         etConfirmPassword.perform(replaceText("password"), closeSoftKeyboard());
 
-        ViewInteraction btLogin = onView(withId(R.id.bt_register));
-        btLogin.perform(click()).check(matches(not(isDisplayed())));
+        ViewInteraction btRegister = onView(withId(R.id.bt_register));
+        btRegister.perform(click()).check(matches(not(isDisplayed())));
 
         try {
             Thread.sleep(5000);
@@ -63,6 +63,6 @@ public class RegisterActivityTest {
             e.printStackTrace();
         }
 
-        btLogin.check(matches(isDisplayed()));
+        btRegister.check(matches(isDisplayed()));
     }
 }

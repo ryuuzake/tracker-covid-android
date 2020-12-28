@@ -1,10 +1,16 @@
 package com.trackercovid.view;
 
+import android.content.Intent;
+import android.os.Bundle;
+
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.google.gson.Gson;
 import com.trackercovid.R;
+import com.trackercovid.model.Country;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,14 +20,26 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.trackercovid.constant.Constants.COUNTRY_KEY;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class CountryDetailActivityTest {
 
+    static Intent intent;
+
+    static {
+        intent = new Intent(ApplicationProvider.getApplicationContext(), CountryActivity.class);
+        Bundle bundle = new Bundle();
+        final Country country = new Country();
+        country.setName("Italy");
+        bundle.putString(COUNTRY_KEY, new Gson().toJson(country));
+        intent.putExtras(bundle);
+    }
+
     @Rule
     public ActivityScenarioRule<CountryDetailActivity> scenarioRule =
-            new ActivityScenarioRule<>(CountryDetailActivity.class);
+            new ActivityScenarioRule<>(intent);
 
     @Test
     public void countryDetailActivityTest_shown() {

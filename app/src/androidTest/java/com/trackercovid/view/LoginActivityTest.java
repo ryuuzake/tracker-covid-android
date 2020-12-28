@@ -49,14 +49,6 @@ public class LoginActivityTest {
 
         ViewInteraction btLogin = onView(withId(R.id.bt_login));
         btLogin.perform(click()).check(matches(not(isDisplayed())));
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        btLogin.check(matches(isDisplayed()));
     }
 
     @Test
@@ -81,6 +73,12 @@ public class LoginActivityTest {
         // Added a sleep statement to match the app's execution delay.
         // The recommended way to handle such scenarios is to use Espresso idling resources:
         // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         ViewInteraction tvRegister = onView(withId(R.id.tv_register));
         tvRegister.perform(click());
 
