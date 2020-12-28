@@ -1,8 +1,11 @@
 package com.trackercovid.view;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
@@ -13,7 +16,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.trackercovid.R;
 import com.trackercovid.presenter.BasePresenter;
 
-public abstract class BaseFragmentHolderActivity extends FragmentActivity {
+public abstract class BaseFragmentHolderActivity extends FragmentActivity
+        implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     protected BaseFragment<? extends BasePresenter> currentFragment;
     protected FrameLayout flFragmentContainer;
@@ -32,6 +36,7 @@ public abstract class BaseFragmentHolderActivity extends FragmentActivity {
         flFragmentContainer = findViewById(R.id.fl_fragment_container);
         appBarLayout = findViewById(R.id.appBarLayout);
         bottomNavigation = findViewById(R.id.bottomNavigationView);
+        bottomNavigation.setOnNavigationItemSelectedListener(this);
     }
 
     protected abstract void initializeFragment();
@@ -48,5 +53,25 @@ public abstract class BaseFragmentHolderActivity extends FragmentActivity {
         fragmentTransaction.commit();
 
         this.currentFragment = fragment;
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent;
+
+        switch (item.getItemId()) {
+            case R.id.btm_heatmap:
+                intent = new Intent(this, HeatMapActivity.class);
+                break;
+            case R.id.btm_country:
+                intent = new Intent(getBaseContext(), CaseCountryActivity.class);
+                break;
+            default:
+                intent = new Intent(this, SummaryActivity.class);
+        }
+
+        startActivity(intent);
+
+        return true;
     }
 }

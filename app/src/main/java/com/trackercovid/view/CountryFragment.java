@@ -1,5 +1,6 @@
 package com.trackercovid.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlayOptions;
+import com.google.gson.Gson;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.trackercovid.R;
@@ -26,6 +28,8 @@ import com.trackercovid.contract.CountryContract;
 import com.trackercovid.model.Country;
 
 import java.util.Collections;
+
+import static com.trackercovid.constant.Constants.COUNTRY_KEY;
 
 public class CountryFragment extends BaseFragment<CountryContract.Presenter> implements CountryContract.View {
 
@@ -92,8 +96,9 @@ public class CountryFragment extends BaseFragment<CountryContract.Presenter> imp
 
     @Override
     public void redirectToDetail() {
-        // TODO: Update Intent
-//        new Intent(getContext(), );
+        Intent intent = new Intent(getActivity(), CountryDetailActivity.class);
+        intent.putExtra(COUNTRY_KEY, new Gson().toJson(country));
+        startActivity(intent);
     }
 
     @Override

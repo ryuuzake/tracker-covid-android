@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
@@ -35,5 +36,37 @@ public class HeatMapActivityTest {
         }
 
         onView(withId(R.id.mapView)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void heatMapActivityTest_goToCaseCountryActivity() {
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.mapView)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.btm_country)).perform(click());
+    }
+
+    @Test
+    public void heatMapActivityTest_goToHomeActivity() {
+        // Added a sleep statement to match the app's execution delay.
+        // The recommended way to handle such scenarios is to use Espresso idling resources:
+        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        onView(withId(R.id.mapView)).check(matches(isDisplayed()));
+
+        onView(withId(R.id.btm_home)).perform(click());
     }
 }

@@ -9,15 +9,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trackercovid.R;
+import com.trackercovid.callback.ListClickListener;
 import com.trackercovid.model.Country;
 
 import java.util.List;
 
 public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountriesRecyclerViewAdapter.ViewHolder> {
     private final List<Country> countries;
+    private final ListClickListener clickListener;
 
-    public CountriesRecyclerViewAdapter(@NonNull List<Country> countries) {
+    public CountriesRecyclerViewAdapter(@NonNull List<Country> countries, ListClickListener clickListener) {
         this.countries = countries;
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -29,7 +32,9 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<Countries
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tvCountry.setText(countries.get(position).getName());
+        final Country country = countries.get(position);
+        holder.tvCountry.setText(country.getName());
+        holder.itemView.setOnClickListener(v -> clickListener.onCountryClick(country));
     }
 
     @Override
