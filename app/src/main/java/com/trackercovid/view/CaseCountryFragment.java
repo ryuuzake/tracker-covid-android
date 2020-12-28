@@ -1,5 +1,6 @@
 package com.trackercovid.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +13,15 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.Gson;
 import com.trackercovid.R;
 import com.trackercovid.adapter.CountriesRecyclerViewAdapter;
 import com.trackercovid.contract.CaseCountryContract;
 import com.trackercovid.model.Country;
 
 import java.util.List;
+
+import static com.trackercovid.constant.Constants.COUNTRY_KEY;
 
 public class CaseCountryFragment extends BaseFragment<CaseCountryContract.Presenter> implements CaseCountryContract.View {
 
@@ -44,9 +48,15 @@ public class CaseCountryFragment extends BaseFragment<CaseCountryContract.Presen
         presenter.start();
     }
 
+    private void redirectToCountry(Country country) {
+        Intent intent = new Intent(getActivity(), CountryActivity.class);
+        intent.putExtra(COUNTRY_KEY, new Gson().toJson(country));
+        startActivity(intent);
+    }
+
     @Override
     public void showCountries(List<Country> countries) {
-        recyclerView.setAdapter(new CountriesRecyclerViewAdapter(countries));
+        recyclerView.setAdapter(new CountriesRecyclerViewAdapter(countries, this::redirectToCountry));
     }
 
     @Override
