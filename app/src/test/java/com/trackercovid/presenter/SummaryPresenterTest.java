@@ -2,8 +2,8 @@ package com.trackercovid.presenter;
 
 import com.trackercovid.callback.RepositoryCallback;
 import com.trackercovid.contract.SummaryContract;
-import com.trackercovid.interactor.CountryRepository;
-import com.trackercovid.model.Country;
+import com.trackercovid.interactor.SummaryRepository;
+import com.trackercovid.model.Summary;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -21,19 +21,19 @@ public class SummaryPresenterTest {
 
     private SummaryPresenter presenter;
     @Mock
-    private CountryRepository mockRepository;
+    private SummaryRepository mockRepository;
     @Mock
     private SummaryContract.View mockView;
     @Captor
-    private ArgumentCaptor<RepositoryCallback<Country>> repositoryCallbackArgumentCaptor;
+    private ArgumentCaptor<RepositoryCallback<Summary>> repositoryCallbackArgumentCaptor;
 
-    private Country tCountry = new Country();
+    private Summary tSummary = new Summary();
 
     @Before
     public void setUp() {
         presenter = new SummaryPresenter(mockView, mockRepository);
 
-        tCountry.setName("Italy");
+        tSummary.setActive(10_000L);
     }
 
     @Test
@@ -41,14 +41,14 @@ public class SummaryPresenterTest {
         // arrange
 
         // act
-        presenter.requestCountrySummary(tCountry);
+        presenter.requestSummary();
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).getCountry(eq(tCountry.getName()), repositoryCallbackArgumentCaptor.capture());
-        repositoryCallbackArgumentCaptor.getValue().onSuccess(tCountry);
+        verify(mockRepository).getSummary(repositoryCallbackArgumentCaptor.capture());
+        repositoryCallbackArgumentCaptor.getValue().onSuccess(tSummary);
         verify(mockView).stopLoading();
-        verify(mockView).showCountrySummary(tCountry);
+        verify(mockView).showSummary(tSummary);
     }
 
     @Test
@@ -56,11 +56,11 @@ public class SummaryPresenterTest {
         // arrange
 
         // act
-        presenter.requestCountrySummary(tCountry);
+        presenter.requestSummary();
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).getCountry(eq(tCountry.getName()), repositoryCallbackArgumentCaptor.capture());
+        verify(mockRepository).getSummary(repositoryCallbackArgumentCaptor.capture());
         String errorMessage = "No Summary Data Found.";
         repositoryCallbackArgumentCaptor.getValue().onEmpty();
         verify(mockView).stopLoading();
@@ -72,11 +72,11 @@ public class SummaryPresenterTest {
         // arrange
 
         // act
-        presenter.requestCountrySummary(tCountry);
+        presenter.requestSummary();
 
         // assert
         verify(mockView).startLoading();
-        verify(mockRepository).getCountry(eq(tCountry.getName()), repositoryCallbackArgumentCaptor.capture());
+        verify(mockRepository).getSummary(repositoryCallbackArgumentCaptor.capture());
         String errorMessage = "Request failed.";
         repositoryCallbackArgumentCaptor.getValue().onError(errorMessage);
         verify(mockView).stopLoading();

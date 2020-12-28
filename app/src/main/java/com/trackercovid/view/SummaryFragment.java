@@ -13,23 +13,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.trackercovid.R;
-import com.trackercovid.adapter.summaryRecyclerViewAdapter;
+import com.trackercovid.adapter.SummaryRecyclerViewAdapter;
 import com.trackercovid.contract.SummaryContract;
-import com.trackercovid.model.Country;
+import com.trackercovid.model.Summary;
 
 public class SummaryFragment extends BaseFragment<SummaryContract.Presenter> implements SummaryContract.View {
-    private Country country;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-
-    public SummaryFragment() {
-        super();
-    }
-
-    public SummaryFragment(Country country) {
-        super();
-        this.country = country;
-    }
 
     @Nullable
     @Override
@@ -44,7 +34,7 @@ public class SummaryFragment extends BaseFragment<SummaryContract.Presenter> imp
     @Override
     public void onStart() {
         super.onStart();
-        presenter.requestCountrySummary(country);
+        presenter.start();
     }
 
     private void setUpRecyclerView() {
@@ -53,8 +43,8 @@ public class SummaryFragment extends BaseFragment<SummaryContract.Presenter> imp
     }
 
     @Override
-    public void showCountrySummary(Country country) {
-        recyclerView.setAdapter(new summaryRecyclerViewAdapter(country));
+    public void showSummary(Summary summary) {
+        recyclerView.setAdapter(new SummaryRecyclerViewAdapter(summary));
     }
 
     @Override

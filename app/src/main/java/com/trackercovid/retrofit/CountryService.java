@@ -10,6 +10,9 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface CountryService {
+    @GET("all")
+    Call<CountryResponse> getSummary();
+
     @GET("countries")
     Call<List<CountryResponse>> getAllCountries(@Query("sort") String sort);
 
