@@ -47,6 +47,25 @@ public class CountryServiceTest {
     }
 
     @Test
+    public void getSummary_verifyEqualsJsonMapping() throws IOException {
+        // Assign
+        String json = fileReader.readJson("all_response.json");
+        assert json != null;
+        MockResponse expectedResponse = new MockResponse()
+                .setResponseCode(HTTP_OK)
+                .setBody(json);
+        server.enqueue(expectedResponse);
+        CountryResponse expected = countryResponseUtil.fromJson(json);
+
+        // Act
+        Response<CountryResponse> response = service.getSummary().execute();
+
+        // Assert
+        assertNotNull(response.body());
+        assertEquals(expected, response.body());
+    }
+
+    @Test
     public void getAllCountries_verifyEqualsJsonMapping() throws IOException {
         // Assign
         String json = fileReader.readJson("all_countries_response.json");

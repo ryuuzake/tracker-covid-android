@@ -39,7 +39,7 @@ public class CountryResponse {
     private Integer critical;
     @SerializedName("casesPerOneMillion")
     @Expose
-    private Integer casesPerOneMillion;
+    private Double casesPerOneMillion;
     @SerializedName("deathsPerOneMillion")
     @Expose
     private Double deathsPerOneMillion;
@@ -48,10 +48,10 @@ public class CountryResponse {
     private Integer tests;
     @SerializedName("testsPerOneMillion")
     @Expose
-    private Integer testsPerOneMillion;
+    private Double testsPerOneMillion;
     @SerializedName("population")
     @Expose
-    private Integer population;
+    private Long population;
     @SerializedName("continent")
     @Expose
     private String continent;
@@ -162,11 +162,11 @@ public class CountryResponse {
         this.critical = critical;
     }
 
-    public Integer getCasesPerOneMillion() {
+    public Double getCasesPerOneMillion() {
         return casesPerOneMillion;
     }
 
-    public void setCasesPerOneMillion(Integer casesPerOneMillion) {
+    public void setCasesPerOneMillion(Double casesPerOneMillion) {
         this.casesPerOneMillion = casesPerOneMillion;
     }
 
@@ -186,19 +186,19 @@ public class CountryResponse {
         this.tests = tests;
     }
 
-    public Integer getTestsPerOneMillion() {
+    public Double getTestsPerOneMillion() {
         return testsPerOneMillion;
     }
 
-    public void setTestsPerOneMillion(Integer testsPerOneMillion) {
+    public void setTestsPerOneMillion(Double testsPerOneMillion) {
         this.testsPerOneMillion = testsPerOneMillion;
     }
 
-    public Integer getPopulation() {
+    public Long getPopulation() {
         return population;
     }
 
-    public void setPopulation(Integer population) {
+    public void setPopulation(Long population) {
         this.population = population;
     }
 

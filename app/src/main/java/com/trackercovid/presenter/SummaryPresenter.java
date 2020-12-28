@@ -2,27 +2,27 @@ package com.trackercovid.presenter;
 
 import com.trackercovid.callback.RepositoryCallback;
 import com.trackercovid.contract.SummaryContract;
-import com.trackercovid.interactor.CountryRepository;
-import com.trackercovid.model.Country;
+import com.trackercovid.interactor.SummaryRepository;
+import com.trackercovid.model.Summary;
 
 public class SummaryPresenter implements SummaryContract.Presenter {
 
     private final SummaryContract.View view;
-    private final CountryRepository repository;
+    private final SummaryRepository repository;
 
-    public SummaryPresenter(SummaryContract.View view, CountryRepository repository) {
+    public SummaryPresenter(SummaryContract.View view, SummaryRepository repository) {
         this.view = view;
         this.repository = repository;
     }
 
     @Override
-    public void requestCountrySummary(Country country) {
+    public void requestSummary() {
         view.startLoading();
-        repository.getCountry(country.getName(), new RepositoryCallback<Country>() {
+        repository.getSummary(new RepositoryCallback<Summary>() {
             @Override
-            public void onSuccess(Country data) {
+            public void onSuccess(Summary data) {
                 view.stopLoading();
-                view.showCountrySummary(data);
+                view.showSummary(data);
             }
 
             @Override
@@ -41,6 +41,6 @@ public class SummaryPresenter implements SummaryContract.Presenter {
 
     @Override
     public void start() {
-
+        requestSummary();
     }
 }

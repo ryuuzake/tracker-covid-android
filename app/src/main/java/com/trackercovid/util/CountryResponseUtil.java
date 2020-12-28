@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.trackercovid.api_response.CountryResponse;
 import com.trackercovid.model.Country;
+import com.trackercovid.model.Summary;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -42,5 +43,14 @@ public class CountryResponseUtil {
         countryModel.setActive(data.getActive());
         countryModel.setCritical(data.getCritical());
         return countryModel;
+    }
+
+    public Summary toSummaryModel(CountryResponse countryResponse) {
+        final Integer active = countryResponse.getActive();
+        final Integer cases = countryResponse.getCases();
+        final Integer critical = countryResponse.getCritical();
+        final Integer deaths = countryResponse.getDeaths();
+        final Integer recovered = countryResponse.getRecovered();
+        return new Summary(active, cases, critical, deaths, recovered);
     }
 }
