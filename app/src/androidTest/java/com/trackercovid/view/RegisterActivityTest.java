@@ -56,13 +56,5 @@ public class RegisterActivityTest {
 
         ViewInteraction btRegister = onView(withId(R.id.bt_register));
         btRegister.perform(click()).check(matches(not(isDisplayed())));
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        btRegister.check(matches(isDisplayed()));
     }
 }
