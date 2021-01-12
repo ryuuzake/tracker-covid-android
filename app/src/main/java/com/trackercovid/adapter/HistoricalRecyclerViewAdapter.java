@@ -13,15 +13,20 @@ import com.trackercovid.model.Historical;
 import com.trackercovid.util.BigNumberUtil;
 import com.trackercovid.util.DateUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class HistoricalRecyclerViewAdapter extends RecyclerView.Adapter<HistoricalRecyclerViewAdapter.ViewHolder> {
     private final Historical historical;
-    private final Object[] historicalKeys;
+    private final List<Date> historicalKeys;
 
     public HistoricalRecyclerViewAdapter(@NonNull Historical historical) {
         this.historical = historical;
-        this.historicalKeys = historical.getCases().keySet().toArray();
+        this.historicalKeys = new ArrayList<>(historical.getCases().keySet());
+        Collections.sort(this.historicalKeys);
+        Collections.reverse(this.historicalKeys);
     }
 
     @NonNull
@@ -33,7 +38,7 @@ public class HistoricalRecyclerViewAdapter extends RecyclerView.Adapter<Historic
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        final Date historicalKey = (Date) historicalKeys[position];
+        final Date historicalKey = historicalKeys.get(position);
         holder.tvDate.setText(DateUtil.getDate(historicalKey));
         holder.tvConfirmed.setText(BigNumberUtil.format((long) historical.getCases().get(historicalKey)));
         holder.tvRecovered.setText(BigNumberUtil.format((long) historical.getRecovered().get(historicalKey)));
