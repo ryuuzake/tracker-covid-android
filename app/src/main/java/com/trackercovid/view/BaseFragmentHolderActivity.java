@@ -88,20 +88,29 @@ public abstract class BaseFragmentHolderActivity extends FragmentActivity implem
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent;
+        Intent intent = null;
 
         switch (item.getItemId()) {
             case R.id.btm_heatmap:
-                intent = new Intent(this, HeatMapActivity.class);
+                if (!(this instanceof HeatMapActivity)) {
+                    intent = new Intent(this, HeatMapActivity.class);
+                }
                 break;
             case R.id.btm_country:
-                intent = new Intent(getBaseContext(), CaseCountryActivity.class);
+                if (!(this instanceof CaseCountryActivity)) {
+                    intent = new Intent(getBaseContext(), CaseCountryActivity.class);
+                }
                 break;
             default:
-                intent = new Intent(this, SummaryActivity.class);
+                if (!(this instanceof SummaryActivity)) {
+                    intent = new Intent(this, SummaryActivity.class);
+                }
         }
 
-        startActivity(intent);
+        if (intent != null) {
+            startActivity(intent);
+            this.finish();
+        }
 
         return true;
     }
