@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,19 +28,41 @@ public class CaseCountryFragment extends BaseFragment<CaseCountryContract.Presen
 
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
+    private SearchView searchView;
+    private CountriesRecyclerViewAdapter recyclerViewAdapter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.case_country_fragment, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
+        searchView = view.findViewById(R.id.searchView);
         progressBar = view.findViewById(R.id.progress_circular);
         setUpRecyclerView();
+        setUpSearchView();
         return view;
     }
 
     private void setUpRecyclerView() {
+        recyclerViewAdapter = new CountriesRecyclerViewAdapter(this::redirectToCountry);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(recyclerViewAdapter);
+    }
+
+    private void setUpSearchView() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                recyclerViewAdapter.getFilter().filter(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                recyclerViewAdapter.getFilter().filter(newText);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -56,18 +79,20 @@ public class CaseCountryFragment extends BaseFragment<CaseCountryContract.Presen
 
     @Override
     public void showCountries(List<Country> countries) {
-        recyclerView.setAdapter(new CountriesRecyclerViewAdapter(countries, this::redirectToCountry));
+        recyclerViewAdapter.setCountries(countries);
     }
 
     @Override
     public void startLoading() {
         progressBar.setVisibility(View.VISIBLE);
+        searchView.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
     }
 
     @Override
     public void stopLoading() {
         progressBar.setVisibility(View.GONE);
+        searchView.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.VISIBLE);
     }
 
